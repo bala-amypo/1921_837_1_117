@@ -2,12 +2,12 @@ package com.example.demo.entity;
 
 import java.time.LocalDate;
 public class Student {
-    private int id;
+    private long id;
     private String name;
     private String email;
     private LocalDate dob;
     private float cgpa;
-    public int getId() {
+    public long getId() {
         return id;
     }
     public void setId(int id) {
