@@ -1,20 +1,14 @@
 package com.example.demo.security;
 
 
-import jakarta.servlet.FilterChain;
+
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+import org.springframework.security.web.AuthenticationEntryPoint; implements AuthenticationEntryPoint {
 @Override
-protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-FilterChain filterChain) {
-try {
-filterChain.doFilter(request, response);
-} catch (Exception e) {
-throw new RuntimeException(e);
-}
+public void commence(HttpServletRequest request, HttpServletResponse response,
+org.springframework.security.core.AuthenticationException authException) {
+response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 }
 }

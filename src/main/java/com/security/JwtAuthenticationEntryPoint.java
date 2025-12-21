@@ -12,4 +12,4 @@ public void commence(HttpServletRequest request, HttpServletResponse response,
 org.springframework.security.core.AuthenticationException authException) {
 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 }
-}   
+}
