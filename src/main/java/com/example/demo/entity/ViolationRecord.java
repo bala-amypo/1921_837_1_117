@@ -1,3 +1,10 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -14,3 +21,4 @@ public class ViolationRecord {
     private String severity;
     private Boolean resolved = false;
 }
+
