@@ -1,11 +1,9 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.entity.LoginEvent;
 import com.example.demo.repository.LoginEventRepository;
-import com.example.demo.service.LoginEventService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,7 +17,6 @@ public class LoginEventServiceImpl implements LoginEventService {
 
     @Override
     public LoginEvent recordLogin(LoginEvent event) {
-        event.setTimestamp(LocalDateTime.now());
         return repo.save(event);
     }
 
@@ -30,6 +27,6 @@ public class LoginEventServiceImpl implements LoginEventService {
 
     @Override
     public List<LoginEvent> getSuspiciousLogins(long userId) {
-        return repo.findSuspiciousByUserId(userId);
+        return repo.findByUserIdAndLoginStatus(userId, "FAILED");
     }
 }

@@ -13,6 +13,7 @@ public class ViolationRecord {
     private String ruleCode;
     private String violationType;
     private String severity;
+    private String details;
     private boolean resolved;
 
     public Long getId() {
@@ -53,6 +54,14 @@ public class ViolationRecord {
 
     public void setSeverity(String severity) {
         this.severity = severity;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public boolean isResolved() {
