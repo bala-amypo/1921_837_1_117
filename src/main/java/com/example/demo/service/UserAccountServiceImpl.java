@@ -5,6 +5,8 @@ import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.service.UserAccountService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
 
@@ -29,15 +31,19 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
+    public UserAccount getById(long id) {
+        return repo.findById(id).orElseThrow();
+    }
+
+    @Override
+    public List<UserAccount> getAllUsers() {
+        return repo.findAll();
+    }
+
+    @Override
     public UserAccount updateUserStatus(long id, String status) {
         UserAccount user = repo.findById(id).orElseThrow();
-
-        if ("ACTIVE".equalsIgnoreCase(status)) {
-            user.setActive(true);
-        } else {
-            user.setActive(false);
-        }
-
+        user.setActive("ACTIVE".equalsIgnoreCase(status));
         return repo.save(user);
     }
 }
