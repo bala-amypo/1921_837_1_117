@@ -1,7 +1,10 @@
 package com.example.demo.util;
 
-import com.example.demo.entity.*;
-import com.example.demo.repository.*;
+import com.example.demo.entity.LoginEvent;
+import com.example.demo.entity.PolicyRule;
+import com.example.demo.entity.ViolationRecord;
+import com.example.demo.repository.PolicyRuleRepository;
+import com.example.demo.repository.ViolationRecordRepository;
 
 public class RuleEvaluationUtil {
 
@@ -11,7 +14,6 @@ public class RuleEvaluationUtil {
     public RuleEvaluationUtil(
             PolicyRuleRepository policyRuleRepository,
             ViolationRecordRepository violationRecordRepository) {
-
         this.policyRuleRepository = policyRuleRepository;
         this.violationRecordRepository = violationRecordRepository;
     }
