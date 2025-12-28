@@ -2,12 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.ViolationRecord;
 import com.example.demo.service.ViolationRecordService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/violations")
+@RequestMapping("/violations")
 public class ViolationRecordController {
 
     private final ViolationRecordService service;
@@ -17,22 +18,17 @@ public class ViolationRecordController {
     }
 
     @PostMapping
-    public ViolationRecord log(@RequestBody ViolationRecord record) {
-        return service.logViolation(record);
+    public ResponseEntity<ViolationRecord> create(@RequestBody ViolationRecord record) {
+        return ResponseEntity.ok(service.create(record));
     }
 
-    @GetMapping
-    public List<ViolationRecord> all() {
-        return service.getUnresolvedViolations();
-    }
-
-    @GetMapping("/unresolved")
-    public List<ViolationRecord> unresolved() {
-        return service.getUnresolvedViolations();
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ViolationRecord>> getByUser(@PathVariable long userId) {
+        return ResponseEntity.ok(service.getByUser(userId));
     }
 
     @PutMapping("/{id}/resolve")
-    public ViolationRecord resolve(@PathVariable long id) {
-        return service.markResolved(id);
+    public ResponseEntity<ViolationRecord> resolve(@PathVariable long id) {
+        return ResponseEntity.ok(service.resolve(id));
     }
 }
