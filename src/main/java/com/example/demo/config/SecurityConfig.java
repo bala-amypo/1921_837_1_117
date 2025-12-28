@@ -6,24 +6,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfig(
-            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+            JwtAuthenticationEntryPoint authenticationEntryPoint,
             JwtAuthenticationFilter jwtAuthenticationFilter
     ) {
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.authenticationEntryPoint = authenticationEntryPoint;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
@@ -31,37 +31,44 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-            // Disable CSRF (JWT based API)
+            // Disable CSRF for REST APIs
             .csrf(csrf -> csrf.disable())
 
-            // Stateless session
+            // Stateless session (JWT)
             .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+
+            // Exception handling
+            .exceptionHandling(ex ->
+                    ex.authenticationEntryPoint(authenticationEntryPoint)
             )
 
             // Authorization rules
             .authorizeHttpRequests(auth -> auth
 
-                // ✅ Swagger & OpenAPI
+                // 🔓 Swagger / OpenAPI (MUST be public for tests)
                 .requestMatchers(
-                    "/swagger-ui/**",
-                    "/swagger-ui.html",
-                    "/v3/api-docs/**"
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html"
                 ).permitAll()
 
-                // ✅ Auth endpoints
-                .requestMatchers("/auth/**").permitAll()
+                // 🔓 Auth endpoints
+                .requestMatchers(
+                        "/auth/**"
+                ).permitAll()
 
-                // 🔒 Everything else secured
+                // 🔓 Health / servlet endpoint (test requirement)
+                .requestMatchers(
+                        "/status"
+                ).permitAll()
+
+                // 🔐 Everything else requires authentication
                 .anyRequest().authenticated()
-            )
-
-            // JWT unauthorized handler
-            .exceptionHandling(ex ->
-                ex.authenticationEntryPoint(jwtAuthenticationEntryPoint)
             );
 
-        // JWT filter
+        // ✅ JWT Filter MUST be before UsernamePasswordAuthenticationFilter
         http.addFilterBefore(
                 jwtAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class
@@ -70,7 +77,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // AuthenticationManager bean
+    // Required for AuthController login
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration
