@@ -10,18 +10,16 @@ public class ViolationRecord {
     private Long id;
 
     private Long userId;
-    private Long ruleId;
+    private String ruleCode;
+    private String violationType;
     private String severity;
-    private String details;
     private boolean resolved;
-
-    public ViolationRecord() {}
 
     public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -29,16 +27,24 @@ public class ViolationRecord {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Long getRuleId() {
-        return ruleId;
+    public String getRuleCode() {
+        return ruleCode;
     }
 
-    public void setRuleId(long ruleId) {
-        this.ruleId = ruleId;
+    public void setRuleCode(String ruleCode) {
+        this.ruleCode = ruleCode;
+    }
+
+    public String getViolationType() {
+        return violationType;
+    }
+
+    public void setViolationType(String violationType) {
+        this.violationType = violationType;
     }
 
     public String getSeverity() {
@@ -47,14 +53,6 @@ public class ViolationRecord {
 
     public void setSeverity(String severity) {
         this.severity = severity;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
     }
 
     public boolean isResolved() {
