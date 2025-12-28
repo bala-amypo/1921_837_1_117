@@ -17,5 +17,10 @@ public class LoginEvent {
     private LocalDateTime timestamp = LocalDateTime.now();
     private String loginStatus;
 
-    // getters & setters
+    public Long getId() { return id; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
+
+    public String getLoginStatus() { return loginStatus; }
+    public void setLoginStatus(String loginStatus) { this.loginStatus = loginStatus; }
 }

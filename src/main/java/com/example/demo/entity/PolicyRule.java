@@ -15,7 +15,8 @@ public class PolicyRule {
     private String description;
     private String severity;
     private String conditionsJson;
-    private boolean active = true;
+    private Boolean active = true;
 
-    // getters & setters
+    public Long getId() { return id; }
+    public String getSeverity() { return severity; }
 }

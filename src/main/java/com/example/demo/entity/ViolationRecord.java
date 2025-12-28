@@ -16,8 +16,14 @@ public class ViolationRecord {
     private String violationType;
     private String details;
     private String severity;
-    private boolean resolved = false;
+    private Boolean resolved = false;
     private LocalDateTime detectedAt = LocalDateTime.now();
 
-    // getters & setters
+    public void setViolationType(String violationType) {
+        this.violationType = violationType;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
 }

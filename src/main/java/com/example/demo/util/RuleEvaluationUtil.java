@@ -8,22 +8,20 @@ public class RuleEvaluationUtil {
     private final PolicyRuleRepository policyRuleRepository;
     private final ViolationRecordRepository violationRecordRepository;
 
-    public RuleEvaluationUtil(PolicyRuleRepository policyRuleRepository,
-                              ViolationRecordRepository violationRecordRepository) {
+    public RuleEvaluationUtil(
+            PolicyRuleRepository policyRuleRepository,
+            ViolationRecordRepository violationRecordRepository) {
+
         this.policyRuleRepository = policyRuleRepository;
         this.violationRecordRepository = violationRecordRepository;
     }
 
     public void evaluateLoginEvent(LoginEvent event) {
-        for (PolicyRule rule : policyRuleRepository.findByActiveTrue()) {
-            if ("FAILED".equals(event.getLoginStatus())) {
+        if ("FAILED".equals(event.getLoginStatus())) {
+            for (PolicyRule rule : policyRuleRepository.findByActiveTrue()) {
                 ViolationRecord vr = new ViolationRecord();
-                vr.setUserId(event.getUserId());
-                vr.setPolicyRuleId(rule.getId());
-                vr.setEventId(event.getId());
                 vr.setViolationType("LOGIN_FAILURE");
-                vr.setSeverity(rule.getSeverity());
-                vr.setDetails("Login failed policy triggered");
+                vr.setDetails("Policy rule triggered");
                 violationRecordRepository.save(vr);
             }
         }
