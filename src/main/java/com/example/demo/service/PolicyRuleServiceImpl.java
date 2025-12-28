@@ -1,8 +1,10 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.PolicyRule;
 import com.example.demo.repository.PolicyRuleRepository;
+import com.example.demo.service.PolicyRuleService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -15,26 +17,17 @@ public class PolicyRuleServiceImpl implements PolicyRuleService {
     }
 
     @Override
-    public PolicyRule create(PolicyRule rule) {
+    public PolicyRule createRule(PolicyRule rule) {
         return repo.save(rule);
     }
 
     @Override
-    public PolicyRule update(Long id, PolicyRule rule) {
-        PolicyRule r = repo.findById(id).orElseThrow();
-        r.setDescription(rule.getDescription());
-        r.setSeverity(rule.getSeverity());
-        r.setActive(rule.getActive());
-        return repo.save(r);
-    }
-
-    @Override
-    public List<PolicyRule> active() {
-        return repo.findByActiveTrue();
-    }
-
-    @Override
-    public List<PolicyRule> all() {
+    public List<PolicyRule> getAllRules() {
         return repo.findAll();
+    }
+
+    @Override
+    public List<PolicyRule> getActiveRules() {
+        return repo.findByActiveTrue();
     }
 }

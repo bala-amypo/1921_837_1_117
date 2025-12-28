@@ -18,22 +18,24 @@ public class DeviceProfileController {
 
     @PostMapping
     public DeviceProfile register(@RequestBody DeviceProfile device) {
-        return service.save(device);
-    }
-
-    @PutMapping("/{id}/trust")
-    public DeviceProfile updateTrust(@PathVariable Long id,
-                                     @RequestParam boolean trust) {
-        return service.updateTrust(id, trust);
-    }
-
-    @GetMapping("/user/{userId}")
-    public List<DeviceProfile> devicesByUser(@PathVariable Long userId) {
-        return service.byUser(userId);
+        return service.registerDevice(device);
     }
 
     @GetMapping("/lookup/{deviceId}")
-    public DeviceProfile findByDevice(@PathVariable String deviceId) {
-        return service.byDeviceId(deviceId);
+    public DeviceProfile lookup(@PathVariable String deviceId) {
+        return service.findByDeviceId(deviceId);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<DeviceProfile> byUser(@PathVariable long userId) {
+        return service.findByUserId(userId);
+    }
+
+    @PutMapping("/{id}/trust")
+    public DeviceProfile trust(
+            @PathVariable long id,
+            @RequestParam boolean trusted
+    ) {
+        return service.updateTrustStatus(id, trusted);
     }
 }

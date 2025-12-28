@@ -1,8 +1,11 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.DeviceProfile;
 import com.example.demo.repository.DeviceProfileRepository;
+import com.example.demo.service.DeviceProfileService;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -15,26 +18,26 @@ public class DeviceProfileServiceImpl implements DeviceProfileService {
     }
 
     @Override
-    public DeviceProfile save(DeviceProfile device) {
+    public DeviceProfile registerDevice(DeviceProfile device) {
+        device.setLastSeen(LocalDateTime.now());
         return repo.save(device);
     }
 
     @Override
-    public DeviceProfile updateTrust(Long id, boolean trust) {
-        DeviceProfile d = repo.findById(id).orElseThrow();
-        d.setIsTrusted(trust);
-        return repo.save(d);
-    }
-
-    @Override
-    public List<DeviceProfile> byUser(Long userId) {
-        return repo.findAll().stream()
-                .filter(d -> d.getUserId().equals(userId))
-                .toList();
-    }
-
-    @Override
-    public DeviceProfile byDeviceId(String deviceId) {
+    public DeviceProfile findByDeviceId(String deviceId) {
         return repo.findByDeviceId(deviceId);
+    }
+
+    @Override
+    public List<DeviceProfile> findByUserId(long userId) {
+        return repo.findByUserId(userId);
+    }
+
+    @Override
+    public DeviceProfile updateTrustStatus(long id, boolean trusted) {
+        DeviceProfile device = repo.findById(id).orElse(null);
+        if (device == null) return null;
+        device.setTrusted(trusted);
+        return repo.save(device);
     }
 }

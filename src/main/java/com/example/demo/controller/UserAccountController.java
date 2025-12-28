@@ -17,23 +17,25 @@ public class UserAccountController {
     }
 
     @PostMapping
-    public UserAccount createUser(@RequestBody UserAccount user) {
+    public UserAccount create(@RequestBody UserAccount user) {
         return service.create(user);
     }
 
+    @GetMapping
+    public List<UserAccount> getAll() {
+        return service.getAllUsers();
+    }
+
     @GetMapping("/{id}")
-    public UserAccount getUserById(@PathVariable Long id) {
+    public UserAccount getById(@PathVariable long id) {
         return service.getById(id);
     }
 
     @PutMapping("/{id}/status")
-    public UserAccount updateStatus(@PathVariable Long id,
-                                    @RequestParam String status) {
-        return service.updateStatus(id, status);
-    }
-
-    @GetMapping
-    public List<UserAccount> getAllUsers() {
-        return service.getAll();
+    public UserAccount updateStatus(
+            @PathVariable long id,
+            @RequestParam String status
+    ) {
+        return service.updateUserStatus(id, status);
     }
 }

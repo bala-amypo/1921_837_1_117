@@ -18,21 +18,21 @@ public class LoginEventController {
 
     @PostMapping("/record")
     public LoginEvent record(@RequestBody LoginEvent event) {
-        return service.record(event);
-    }
-
-    @GetMapping("/user/{userId}")
-    public List<LoginEvent> successByUser(@PathVariable Long userId) {
-        return service.successByUser(userId);
-    }
-
-    @GetMapping("/suspicious/{userId}")
-    public List<LoginEvent> failedByUser(@PathVariable Long userId) {
-        return service.failedByUser(userId);
+        return service.recordLogin(event);
     }
 
     @GetMapping
     public List<LoginEvent> all() {
-        return service.getAll();
+        return service.getEventsByUser(0);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<LoginEvent> byUser(@PathVariable long userId) {
+        return service.getEventsByUser(userId);
+    }
+
+    @GetMapping("/suspicious/{userId}")
+    public List<LoginEvent> suspicious(@PathVariable long userId) {
+        return service.getSuspiciousLogins(userId);
     }
 }

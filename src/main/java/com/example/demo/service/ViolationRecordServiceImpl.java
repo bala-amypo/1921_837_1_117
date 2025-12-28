@@ -1,8 +1,10 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.ViolationRecord;
 import com.example.demo.repository.ViolationRecordRepository;
+import com.example.demo.service.ViolationRecordService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -15,24 +17,21 @@ public class ViolationRecordServiceImpl implements ViolationRecordService {
     }
 
     @Override
-    public ViolationRecord save(ViolationRecord record) {
+    public ViolationRecord logViolation(ViolationRecord record) {
+        record.setResolved(false);
         return repo.save(record);
     }
 
     @Override
-    public ViolationRecord resolve(Long id) {
-        ViolationRecord v = repo.findById(id).orElseThrow();
-        v.setResolved(true);
-        return repo.save(v);
-    }
-
-    @Override
-    public List<ViolationRecord> unresolved() {
+    public List<ViolationRecord> getUnresolvedViolations() {
         return repo.findByResolvedFalse();
     }
 
     @Override
-    public List<ViolationRecord> all() {
-        return repo.findAll();
+    public ViolationRecord markResolved(long id) {
+        ViolationRecord record = repo.findById(id).orElse(null);
+        if (record == null) return null;
+        record.setResolved(true);
+        return repo.save(record);
     }
 }
