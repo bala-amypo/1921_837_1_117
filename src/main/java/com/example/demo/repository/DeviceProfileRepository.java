@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DeviceProfileRepository extends JpaRepository<DeviceProfile, Long> {
 
-    List<DeviceProfile> findByUserId(long userId);
+    List<DeviceProfile> findByUserId(Long userId);
 
     DeviceProfile findByDeviceId(String deviceId);
 }
