@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.DeviceProfile;
-import com.example.demo.repository.DeviceProfileRepository;
+import com.example.demo.service.DeviceProfileService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,36 +10,30 @@ import java.util.List;
 @RequestMapping("/api/devices")
 public class DeviceProfileController {
 
-    private final DeviceProfileRepository repo;
+    private final DeviceProfileService service;
 
-    public DeviceProfileController(DeviceProfileRepository repo) {
-        this.repo = repo;
+    public DeviceProfileController(DeviceProfileService service) {
+        this.service = service;
     }
 
     @PostMapping
     public DeviceProfile register(@RequestBody DeviceProfile device) {
-        return repo.save(device);
+        return service.save(device);
     }
 
     @PutMapping("/{id}/trust")
     public DeviceProfile updateTrust(@PathVariable Long id,
                                      @RequestParam boolean trust) {
-
-        DeviceProfile d = repo.findById(id).orElseThrow();
-        d.setIsTrusted(trust);
-        return repo.save(d);
+        return service.updateTrust(id, trust);
     }
 
     @GetMapping("/user/{userId}")
     public List<DeviceProfile> devicesByUser(@PathVariable Long userId) {
-        return repo.findAll()
-                   .stream()
-                   .filter(d -> d.getUserId().equals(userId))
-                   .toList();
+        return service.byUser(userId);
     }
 
     @GetMapping("/lookup/{deviceId}")
     public DeviceProfile findByDevice(@PathVariable String deviceId) {
-        return repo.findByDeviceId(deviceId);
+        return service.byDeviceId(deviceId);
     }
 }

@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.UserAccount;
-import com.example.demo.repository.UserAccountRepository;
+import com.example.demo.service.UserAccountService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,33 +10,30 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserAccountController {
 
-    private final UserAccountRepository repo;
+    private final UserAccountService service;
 
-    public UserAccountController(UserAccountRepository repo) {
-        this.repo = repo;
+    public UserAccountController(UserAccountService service) {
+        this.service = service;
     }
 
     @PostMapping
     public UserAccount createUser(@RequestBody UserAccount user) {
-        return repo.save(user);
+        return service.create(user);
     }
 
     @GetMapping("/{id}")
     public UserAccount getUserById(@PathVariable Long id) {
-        return repo.findById(id).orElseThrow();
+        return service.getById(id);
     }
 
     @PutMapping("/{id}/status")
     public UserAccount updateStatus(@PathVariable Long id,
                                     @RequestParam String status) {
-
-        UserAccount user = repo.findById(id).orElseThrow();
-        user.setStatus(status);
-        return repo.save(user);
+        return service.updateStatus(id, status);
     }
 
     @GetMapping
     public List<UserAccount> getAllUsers() {
-        return repo.findAll();
+        return service.getAll();
     }
 }

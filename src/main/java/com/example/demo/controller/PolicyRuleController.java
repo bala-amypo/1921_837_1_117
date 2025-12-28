@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.PolicyRule;
-import com.example.demo.repository.PolicyRuleRepository;
+import com.example.demo.service.PolicyRuleService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,35 +10,30 @@ import java.util.List;
 @RequestMapping("/api/rules")
 public class PolicyRuleController {
 
-    private final PolicyRuleRepository repo;
+    private final PolicyRuleService service;
 
-    public PolicyRuleController(PolicyRuleRepository repo) {
-        this.repo = repo;
+    public PolicyRuleController(PolicyRuleService service) {
+        this.service = service;
     }
 
     @PostMapping
     public PolicyRule create(@RequestBody PolicyRule rule) {
-        return repo.save(rule);
+        return service.create(rule);
     }
 
     @PutMapping("/{id}")
     public PolicyRule update(@PathVariable Long id,
                              @RequestBody PolicyRule rule) {
-
-        PolicyRule existing = repo.findById(id).orElseThrow();
-        existing.setDescription(rule.getDescription());
-        existing.setSeverity(rule.getSeverity());
-        existing.setActive(rule.getActive());
-        return repo.save(existing);
+        return service.update(id, rule);
     }
 
     @GetMapping("/active")
     public List<PolicyRule> activeRules() {
-        return repo.findByActiveTrue();
+        return service.active();
     }
 
     @GetMapping
     public List<PolicyRule> allRules() {
-        return repo.findAll();
+        return service.all();
     }
 }

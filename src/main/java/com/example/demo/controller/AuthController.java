@@ -4,8 +4,8 @@ import com.example.demo.dto.JwtResponse;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.UserAccount;
-import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.security.JwtUtil;
+import com.example.demo.service.UserAccountService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserAccountRepository userRepo;
+    private final UserAccountService userService;
     private final PasswordEncoder encoder;
     private final JwtUtil jwtUtil;
 
-    public AuthController(UserAccountRepository userRepo,
+    public AuthController(UserAccountService userService,
                           PasswordEncoder encoder,
                           JwtUtil jwtUtil) {
-        this.userRepo = userRepo;
+        this.userService = userService;
         this.encoder = encoder;
         this.jwtUtil = jwtUtil;
     }
@@ -35,13 +35,13 @@ public class AuthController {
         user.setPassword(encoder.encode(req.getPassword()));
         user.setRole("USER");
 
-        return userRepo.save(user);
+        return userService.create(user);
     }
 
     @PostMapping("/login")
     public JwtResponse login(@RequestBody LoginRequest req) {
 
-        UserAccount user = userRepo.findByUsername(req.getUsername());
+        UserAccount user = userService.findByUsername(req.getUsername());
 
         if (user == null || !encoder.matches(req.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
