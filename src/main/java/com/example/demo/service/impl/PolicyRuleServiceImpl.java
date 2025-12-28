@@ -18,12 +18,8 @@ public class PolicyRuleServiceImpl implements PolicyRuleService {
 
     @Override
     public PolicyRule createRule(PolicyRule rule) {
+        rule.setActive(true);
         return repo.save(rule);
-    }
-
-    @Override
-    public List<PolicyRule> getAllRules() {
-        return repo.findAll();
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.example.demo.repository.DeviceProfileRepository;
 import com.example.demo.service.DeviceProfileService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,25 +18,19 @@ public class DeviceProfileServiceImpl implements DeviceProfileService {
 
     @Override
     public DeviceProfile registerDevice(DeviceProfile device) {
-        device.setLastSeen(LocalDateTime.now());
+        device.setTrusted(false);
         return repo.save(device);
     }
 
     @Override
-    public DeviceProfile findByDeviceId(String deviceId) {
-        return repo.findByDeviceId(deviceId);
-    }
-
-    @Override
-    public List<DeviceProfile> findByUserId(long userId) {
+    public List<DeviceProfile> getDevicesByUser(long userId) {
         return repo.findByUserId(userId);
     }
 
     @Override
-    public DeviceProfile updateTrustStatus(long id, boolean trusted) {
-        DeviceProfile device = repo.findById(id).orElse(null);
-        if (device == null) return null;
-        device.setTrusted(trusted);
+    public DeviceProfile trustDevice(long deviceId) {
+        DeviceProfile device = repo.findById(deviceId).orElseThrow();
+        device.setTrusted(true);
         return repo.save(device);
     }
 }

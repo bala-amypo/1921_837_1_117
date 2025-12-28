@@ -7,9 +7,7 @@ public interface DeviceProfileService {
 
     DeviceProfile registerDevice(DeviceProfile device);
 
-    DeviceProfile findByDeviceId(String deviceId);
+    List<DeviceProfile> getDevicesByUser(long userId);
 
-    List<DeviceProfile> findByUserId(long userId);
-
-    DeviceProfile updateTrustStatus(long id, boolean trusted);
+    DeviceProfile trustDevice(long deviceId);
 }
