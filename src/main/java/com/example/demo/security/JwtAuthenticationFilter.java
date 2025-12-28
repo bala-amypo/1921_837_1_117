@@ -2,7 +2,11 @@ package com.example.demo.security;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import java.io.IOException;
+import java.util.Collections;
 
 public class JwtAuthenticationFilter implements Filter {
 
@@ -20,11 +24,17 @@ public class JwtAuthenticationFilter implements Filter {
             throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
-        String authHeader = req.getHeader("Authorization");
+        String header = req.getHeader("Authorization");
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
-            jwtUtil.extractUsername(token); // validates token
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+            String username = jwtUtil.extractUsername(token);
+
+            UsernamePasswordAuthenticationToken auth =
+                    new UsernamePasswordAuthenticationToken(
+                            username, null, Collections.emptyList());
+
+            SecurityContextHolder.getContext().setAuthentication(auth);
         }
 
         chain.doFilter(request, response);
