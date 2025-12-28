@@ -27,8 +27,10 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String getUsername(String token) {
-        return Jwts.parser().setSigningKey(secret)
+    // ✅ REQUIRED by JwtAuthenticationFilter
+    public String extractUsername(String token) {
+        return Jwts.parser()
+                .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();

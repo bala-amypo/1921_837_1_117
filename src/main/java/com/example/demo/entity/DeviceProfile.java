@@ -17,6 +17,27 @@ public class DeviceProfile {
     private LocalDateTime lastSeen = LocalDateTime.now();
     private Boolean isTrusted;
 
-    public Long getId() { return id; }
-    public String getDeviceId() { return deviceId; }
+    public Long getId() {
+        return id;
+    }
+
+    public Long getUserId() {          // ✅ REQUIRED
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public Boolean getIsTrusted() {
+        return isTrusted;
+    }
+
+    public void setIsTrusted(Boolean isTrusted) {   // ✅ REQUIRED
+        this.isTrusted = isTrusted;
+    }
 }

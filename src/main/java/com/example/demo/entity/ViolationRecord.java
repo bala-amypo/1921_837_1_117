@@ -19,11 +19,23 @@ public class ViolationRecord {
     private Boolean resolved = false;
     private LocalDateTime detectedAt = LocalDateTime.now();
 
+    public Long getId() {
+        return id;
+    }
+
     public void setViolationType(String violationType) {
         this.violationType = violationType;
     }
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public Boolean getResolved() {
+        return resolved;
+    }
+
+    public void setResolved(Boolean resolved) {   // ✅ REQUIRED
+        this.resolved = resolved;
     }
 }
