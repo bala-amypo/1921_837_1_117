@@ -14,7 +14,7 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
 
         Server server = new Server();
-        server.setUrl("https://9001.408procr.amypo.ai");
+        server.setUrl("https://9002.408procr.amypo.ai");
         server.setDescription("Cloud Runtime");
 
         return new OpenAPI()
