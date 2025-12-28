@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.example.demo.entity.PolicyRule;
 import com.example.demo.repository.PolicyRuleRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

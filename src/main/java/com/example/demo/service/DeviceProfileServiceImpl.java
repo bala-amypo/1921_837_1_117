@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.example.demo.entity.DeviceProfile;
 import com.example.demo.repository.DeviceProfileRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -29,8 +28,7 @@ public class DeviceProfileServiceImpl implements DeviceProfileService {
 
     @Override
     public List<DeviceProfile> byUser(Long userId) {
-        return repo.findAll()
-                .stream()
+        return repo.findAll().stream()
                 .filter(d -> d.getUserId().equals(userId))
                 .toList();
     }

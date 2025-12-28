@@ -4,7 +4,6 @@ import com.example.demo.entity.LoginEvent;
 import com.example.demo.repository.LoginEventRepository;
 import com.example.demo.util.RuleEvaluationUtil;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -13,11 +12,10 @@ public class LoginEventServiceImpl implements LoginEventService {
     private final LoginEventRepository repo;
     private final RuleEvaluationUtil ruleUtil;
 
-    // ⚠️ exact constructor order REQUIRED by tests
+    // ⚠️ ORDER IS IMPORTANT
     public LoginEventServiceImpl(
             LoginEventRepository repo,
             RuleEvaluationUtil ruleUtil) {
-
         this.repo = repo;
         this.ruleUtil = ruleUtil;
     }
