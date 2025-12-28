@@ -1,41 +1,67 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class ViolationRecord {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long userId;
-    private Long policyRuleId;
-    private Long eventId;
-    private String violationType;
-    private String details;
+    private Long ruleId;
     private String severity;
-    private Boolean resolved = false;
-    private LocalDateTime detectedAt = LocalDateTime.now();
+    private String details;
+    private boolean resolved;
+
+    public ViolationRecord() {}
 
     public Long getId() {
         return id;
     }
 
-    public void setViolationType(String violationType) {
-        this.violationType = violationType;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public Long getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(long ruleId) {
+        this.ruleId = ruleId;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    public String getDetails() {
+        return details;
     }
 
     public void setDetails(String details) {
         this.details = details;
     }
 
-    public Boolean getResolved() {
+    public boolean isResolved() {
         return resolved;
     }
 
-    public void setResolved(Boolean resolved) {   // ✅ REQUIRED
+    public void setResolved(boolean resolved) {
         this.resolved = resolved;
     }
 }

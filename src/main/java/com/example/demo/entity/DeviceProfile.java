@@ -7,37 +7,71 @@ import java.time.LocalDateTime;
 public class DeviceProfile {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
     private String deviceId;
+    private Long userId;
+    private boolean trusted;
     private String deviceType;
     private String osVersion;
-    private LocalDateTime lastSeen = LocalDateTime.now();
-    private Boolean isTrusted;
+    private LocalDateTime lastSeen;
+
+    public DeviceProfile() {}
 
     public Long getId() {
         return id;
     }
 
-    public Long getUserId() {          // ✅ REQUIRED
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getDeviceId() {
         return deviceId;
     }
 
-    public Boolean getIsTrusted() {
-        return isTrusted;
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
-    public void setIsTrusted(Boolean isTrusted) {   // ✅ REQUIRED
-        this.isTrusted = isTrusted;
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public boolean isTrusted() {
+        return trusted;
+    }
+
+    public void setTrusted(boolean trusted) {
+        this.trusted = trusted;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public String getOsVersion() {
+        return osVersion;
+    }
+
+    public void setOsVersion(String osVersion) {
+        this.osVersion = osVersion;
+    }
+
+    public LocalDateTime getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(LocalDateTime lastSeen) {
+        this.lastSeen = lastSeen;
     }
 }

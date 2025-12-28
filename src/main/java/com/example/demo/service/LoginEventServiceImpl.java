@@ -1,44 +1,35 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.LoginEvent;
 import com.example.demo.repository.LoginEventRepository;
-import com.example.demo.util.RuleEvaluationUtil;
+import com.example.demo.service.LoginEventService;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class LoginEventServiceImpl implements LoginEventService {
 
     private final LoginEventRepository repo;
-    private final RuleEvaluationUtil ruleUtil;
 
-    // ⚠️ ORDER IS IMPORTANT
-    public LoginEventServiceImpl(
-            LoginEventRepository repo,
-            RuleEvaluationUtil ruleUtil) {
+    public LoginEventServiceImpl(LoginEventRepository repo) {
         this.repo = repo;
-        this.ruleUtil = ruleUtil;
     }
 
     @Override
-    public LoginEvent record(LoginEvent event) {
-        LoginEvent saved = repo.save(event);
-        ruleUtil.evaluateLoginEvent(saved);
-        return saved;
+    public LoginEvent recordLogin(LoginEvent event) {
+        event.setTimestamp(LocalDateTime.now());
+        return repo.save(event);
     }
 
     @Override
-    public List<LoginEvent> successByUser(Long userId) {
-        return repo.findByUserIdAndLoginStatus(userId, "SUCCESS");
+    public List<LoginEvent> getEventsByUser(long userId) {
+        return repo.findByUserId(userId);
     }
 
     @Override
-    public List<LoginEvent> failedByUser(Long userId) {
-        return repo.findByUserIdAndLoginStatus(userId, "FAILED");
-    }
-
-    @Override
-    public List<LoginEvent> getAll() {
-        return repo.findAll();
+    public List<LoginEvent> getSuspiciousLogins(long userId) {
+        return repo.findSuspiciousByUserId(userId);
     }
 }
