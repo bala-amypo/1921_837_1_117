@@ -27,4 +27,17 @@ public class UserAccountServiceImpl implements UserAccountService {
     public UserAccount getByUsername(String username) {
         return repo.findByUsername(username);
     }
+
+    @Override
+    public UserAccount updateUserStatus(long id, String status) {
+        UserAccount user = repo.findById(id).orElseThrow();
+
+        if ("ACTIVE".equalsIgnoreCase(status)) {
+            user.setActive(true);
+        } else {
+            user.setActive(false);
+        }
+
+        return repo.save(user);
+    }
 }
