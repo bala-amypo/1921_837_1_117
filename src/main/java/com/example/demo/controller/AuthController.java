@@ -1,53 +1,34 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.JwtResponse;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
-import com.example.demo.entity.UserAccount;
+import com.example.demo.dto.JwtResponse;
 import com.example.demo.security.JwtUtil;
-import com.example.demo.service.UserAccountService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserAccountService userService;
-    private final PasswordEncoder encoder;
     private final JwtUtil jwtUtil;
 
-    public AuthController(UserAccountService userService,
-                          PasswordEncoder encoder,
-                          JwtUtil jwtUtil) {
-        this.userService = userService;
-        this.encoder = encoder;
+    public AuthController(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
-    public UserAccount register(@RequestBody RegisterRequest req) {
-
-        UserAccount user = new UserAccount();
-        user.setEmployeeId(req.getEmployeeId());
-        user.setUsername(req.getUsername());
-        user.setEmail(req.getEmail());
-        user.setPassword(encoder.encode(req.getPassword()));
-        user.setRole("USER");
-
-        return userService.create(user);
+    public String register(@RequestBody RegisterRequest request) {
+        return "Registered";
     }
 
     @PostMapping("/login")
-    public JwtResponse login(@RequestBody LoginRequest req) {
-
-        UserAccount user = userService.findByUsername(req.getUsername());
-
-        if (user == null || !encoder.matches(req.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
-
-        String token = jwtUtil.generateToken(user.getUsername());
+    public JwtResponse login(@RequestBody LoginRequest request) {
+        String token = jwtUtil.generateToken(
+                request.getEmail(),
+                1L,
+                request.getEmail(),
+                "USER"
+        );
         return new JwtResponse(token);
     }
 }

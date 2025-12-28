@@ -18,22 +18,22 @@ public class PolicyRuleController {
 
     @PostMapping
     public PolicyRule create(@RequestBody PolicyRule rule) {
-        return service.create(rule);
-    }
-
-    @PutMapping("/{id}")
-    public PolicyRule update(@PathVariable Long id,
-                             @RequestBody PolicyRule rule) {
-        return service.update(id, rule);
-    }
-
-    @GetMapping("/active")
-    public List<PolicyRule> activeRules() {
-        return service.active();
+        return service.createRule(rule);
     }
 
     @GetMapping
-    public List<PolicyRule> allRules() {
-        return service.all();
+    public List<PolicyRule> all() {
+        return service.getAllRules();
+    }
+
+    @GetMapping("/active")
+    public List<PolicyRule> active() {
+        return service.getActiveRules();
+    }
+
+    @PutMapping("/{id}")
+    public PolicyRule update(@PathVariable long id, @RequestBody PolicyRule rule) {
+        rule.setId(id);
+        return service.createRule(rule);
     }
 }

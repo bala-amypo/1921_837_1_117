@@ -18,21 +18,21 @@ public class ViolationRecordController {
 
     @PostMapping
     public ViolationRecord log(@RequestBody ViolationRecord record) {
-        return service.save(record);
-    }
-
-    @PutMapping("/{id}/resolve")
-    public ViolationRecord resolve(@PathVariable Long id) {
-        return service.resolve(id);
-    }
-
-    @GetMapping("/unresolved")
-    public List<ViolationRecord> unresolved() {
-        return service.unresolved();
+        return service.logViolation(record);
     }
 
     @GetMapping
     public List<ViolationRecord> all() {
-        return service.all();
+        return service.getUnresolvedViolations();
+    }
+
+    @GetMapping("/unresolved")
+    public List<ViolationRecord> unresolved() {
+        return service.getUnresolvedViolations();
+    }
+
+    @PutMapping("/{id}/resolve")
+    public ViolationRecord resolve(@PathVariable long id) {
+        return service.markResolved(id);
     }
 }
