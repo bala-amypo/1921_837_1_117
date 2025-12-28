@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class ViolationRecord {
@@ -10,16 +11,20 @@ public class ViolationRecord {
     private Long id;
 
     private Long userId;
-    private String ruleCode;
+    private Long eventId;
     private String violationType;
-    private String severity;
+    private int severity;
     private String details;
-    private boolean resolved;
+    private String status;
+
+    private LocalDateTime createdAt;
+
+    public ViolationRecord() {}
 
     public Long getId() {
         return id;
     }
-
+    
     public void setId(Long id) {
         this.id = id;
     }
@@ -27,48 +32,56 @@ public class ViolationRecord {
     public Long getUserId() {
         return userId;
     }
-
+    
     public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getRuleCode() {
-        return ruleCode;
+    public Long getEventId() {
+        return eventId;
     }
-
-    public void setRuleCode(String ruleCode) {
-        this.ruleCode = ruleCode;
+    
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
     }
 
     public String getViolationType() {
         return violationType;
     }
-
+    
     public void setViolationType(String violationType) {
         this.violationType = violationType;
     }
 
-    public String getSeverity() {
+    public int getSeverity() {
         return severity;
     }
-
-    public void setSeverity(String severity) {
+    
+    public void setSeverity(int severity) {
         this.severity = severity;
     }
 
     public String getDetails() {
         return details;
     }
-
+    
     public void setDetails(String details) {
         this.details = details;
     }
 
-    public boolean isResolved() {
-        return resolved;
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public void setResolved(boolean resolved) {
-        this.resolved = resolved;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
