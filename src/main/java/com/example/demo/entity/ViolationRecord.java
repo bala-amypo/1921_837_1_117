@@ -11,20 +11,24 @@ public class ViolationRecord {
     private Long id;
 
     private Long userId;
-    private Long eventId;
     private String violationType;
-    private int severity;
-    private String details;
+    private String severity;
     private String status;
+    private boolean resolved;
+    private String details;
 
     private LocalDateTime createdAt;
 
-    public ViolationRecord() {}
+    public ViolationRecord() {
+        this.createdAt = LocalDateTime.now();
+        this.resolved = false;
+        this.status = "OPEN";
+    }
 
     public Long getId() {
         return id;
     }
-    
+ 
     public void setId(Long id) {
         this.id = id;
     }
@@ -32,55 +36,56 @@ public class ViolationRecord {
     public Long getUserId() {
         return userId;
     }
-    
+ 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public Long getEventId() {
-        return eventId;
-    }
-    
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
     }
 
     public String getViolationType() {
         return violationType;
     }
-    
+ 
     public void setViolationType(String violationType) {
         this.violationType = violationType;
     }
 
-    public int getSeverity() {
+    public String getSeverity() {
         return severity;
     }
-    
-    public void setSeverity(int severity) {
+ 
+    public void setSeverity(String severity) {
         this.severity = severity;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-    
-    public void setDetails(String details) {
-        this.details = details;
     }
 
     public String getStatus() {
         return status;
     }
-    
+ 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public boolean isResolved() {
+        return resolved;
+    }
+
+    public void setResolved(boolean resolved) {
+        this.resolved = resolved;
+        this.status = resolved ? "RESOLVED" : "OPEN";
+    }
+
+    public String getDetails() {
+        return details;
+    }
+ 
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
-    
+ 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
