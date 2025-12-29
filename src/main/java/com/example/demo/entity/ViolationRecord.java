@@ -9,7 +9,14 @@ public class ViolationRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long eventId;
+    private Long userId;
+
+    private Long ruleId;
+
+    private String violationType;
+
+    private String details;
+
     private boolean resolved;
 
     public ViolationRecord() {
@@ -19,16 +26,40 @@ public class ViolationRecord {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public Long getEventId() {
-        return eventId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
+    public Long getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(Long ruleId) {
+        this.ruleId = ruleId;
+    }
+
+    // 🔥 REQUIRED BY TESTS
+    public String getViolationType() {
+        return violationType;
+    }
+
+    // 🔥 REQUIRED BY TESTS
+    public void setViolationType(String violationType) {
+        this.violationType = violationType;
+    }
+
+    // 🔥 REQUIRED BY TESTS
+    public String getDetails() {
+        return details;
+    }
+
+    // 🔥 REQUIRED BY TESTS
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public boolean getResolved() {
