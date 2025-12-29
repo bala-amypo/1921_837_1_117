@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.JwtResponse;
+import com.example.demo.dto.LoginRequest;
 import com.example.demo.entity.LoginEvent;
 import com.example.demo.entity.UserAccount;
 import com.example.demo.security.JwtUtil;
@@ -38,23 +38,18 @@ public class AuthController {
         UserAccount user = userService.getByUsername(request.getUsername());
 
         String status = "FAILED";
-        String token = null;
 
         if (user != null && passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             status = "SUCCESS";
-            token = jwtUtil.generateToken(
-                    user.getUsername(),
-                    user.getId(),
-                    user.getRole(),
-                    user.getEmail()
-            );
         }
 
         LoginEvent event = new LoginEvent();
-        event.setUserId(user != null ? user.getId() : null);
+        event.setUserId(user != null ? user.getId() : 0);
         event.setLoginStatus(status);
         loginEventService.recordLogin(event);
 
-        return ResponseEntity.ok(new JwtResponse(token, status));
+        String token = jwtUtil.generateToken(request.getUsername());
+
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 }

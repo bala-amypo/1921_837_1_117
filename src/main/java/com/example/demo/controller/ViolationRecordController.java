@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.ViolationRecord;
 import com.example.demo.service.ViolationRecordService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,17 +17,17 @@ public class ViolationRecordController {
     }
 
     @PostMapping
-    public ResponseEntity<ViolationRecord> create(@RequestBody ViolationRecord record) {
-        return ResponseEntity.ok(service.create(record));
+    public ViolationRecord create(@RequestBody ViolationRecord record) {
+        return service.createViolation(record);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ViolationRecord>> getByUser(@PathVariable long userId) {
-        return ResponseEntity.ok(service.getByUser(userId));
+    @GetMapping("/unresolved")
+    public List<ViolationRecord> getUnresolved() {
+        return service.getUnresolvedViolations();
     }
 
     @PutMapping("/{id}/resolve")
-    public ResponseEntity<ViolationRecord> resolve(@PathVariable long id) {
-        return ResponseEntity.ok(service.resolve(id));
+    public ViolationRecord resolve(@PathVariable long id) {
+        return service.resolveViolation(id);
     }
 }
