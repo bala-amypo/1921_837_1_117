@@ -35,7 +35,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
 
-            if (jwtUtil.validateToken(token)) {
+            try {
+                // JwtUtil already validates token internally
                 String username = jwtUtil.extractUsername(token);
 
                 UsernamePasswordAuthenticationToken authentication =
@@ -50,6 +51,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            } catch (Exception ex) {
+                // Invalid token → ignore and continue filter chain
             }
         }
 
