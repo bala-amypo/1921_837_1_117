@@ -1,78 +1,33 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "device_profiles")
 public class DeviceProfile {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
     private String deviceId;
-    private String deviceType;
     private boolean trusted;
-    private String osVersion;
-
-    private LocalDateTime lastSeen;
+    private boolean active;
+    private Long userId;
 
     public DeviceProfile() {}
 
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id){ this.id = id; }
 
-    public Long getUserId() {
-        return userId;
-    }
-    
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+    public String getDeviceId(){ return deviceId; }
+    public void setDeviceId(String deviceId){ this.deviceId = deviceId; }
 
-    public String getDeviceId() {
-        return deviceId;
-    }
-    
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
+    public boolean getIsTrusted(){ return trusted; }
+    public void setIsTrusted(boolean trusted){ this.trusted = trusted; }
 
-    public String getDeviceType() {
-        return deviceType;
-    }
-    
-    public void setDeviceType(String deviceType) {
-        this.deviceType = deviceType;
-    }
+    public boolean getActive(){ return active; }
+    public void setActive(boolean active){ this.active = active; }
 
-    public boolean isTrusted() {
-        return trusted;
-    }
-    
-    public void setTrusted(boolean trusted) {
-        this.trusted = trusted;
-    }
-
-    public String getOsVersion() {
-        return osVersion;
-    }
-    
-    public void setOsVersion(String osVersion) {
-        this.osVersion = osVersion;
-    }
-
-    public LocalDateTime getLastSeen() {
-        return lastSeen;
-    }
-    
-    public void setLastSeen(LocalDateTime lastSeen) {
-        this.lastSeen = lastSeen;
-    }
+    public Long getUserId(){ return userId; }
+    public void setUserId(Long userId){ this.userId = userId; }
 }

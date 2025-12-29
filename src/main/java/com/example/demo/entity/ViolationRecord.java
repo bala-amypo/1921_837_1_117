@@ -1,92 +1,41 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "violation_records")
 public class ViolationRecord {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long eventId;
     private Long userId;
     private String violationType;
-    private String severity;
-    private String status;
-    private boolean resolved;
     private String details;
+    private boolean resolved;
+    private Long employeeId;
 
-    private LocalDateTime createdAt;
+    public ViolationRecord(){}
 
-    public ViolationRecord() {
-        this.createdAt = LocalDateTime.now();
-        this.resolved = false;
-        this.status = "OPEN";
-    }
+    public Long getId(){ return id; }
+    public void setId(Long id){ this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
- 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getEventId(){ return eventId; }
+    public void setEventId(Long eventId){ this.eventId = eventId; }
 
-    public Long getUserId() {
-        return userId;
-    }
- 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+    public Long getUserId(){ return userId; }
+    public void setUserId(Long userId){ this.userId = userId; }
 
-    public String getViolationType() {
-        return violationType;
-    }
- 
-    public void setViolationType(String violationType) {
-        this.violationType = violationType;
-    }
+    public String getViolationType(){ return violationType; }
+    public void setViolationType(String violationType){ this.violationType = violationType; }
 
-    public String getSeverity() {
-        return severity;
-    }
- 
-    public void setSeverity(String severity) {
-        this.severity = severity;
-    }
+    public String getDetails(){ return details; }
+    public void setDetails(String details){ this.details = details; }
 
-    public String getStatus() {
-        return status;
-    }
- 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public boolean getResolved(){ return resolved; }
+    public void setResolved(boolean resolved){ this.resolved = resolved; }
 
-    public boolean isResolved() {
-        return resolved;
-    }
-
-    public void setResolved(boolean resolved) {
-        this.resolved = resolved;
-        this.status = resolved ? "RESOLVED" : "OPEN";
-    }
-
-    public String getDetails() {
-        return details;
-    }
- 
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
- 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+    public Long getEmployeeId(){ return employeeId; }
+    public void setEmployeeId(Long employeeId){ this.employeeId = employeeId; }
 }
