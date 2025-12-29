@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.LoginResponse;
 import com.example.demo.entity.LoginEvent;
 import com.example.demo.entity.UserAccount;
 import com.example.demo.security.JwtUtil;
@@ -10,6 +9,9 @@ import com.example.demo.service.UserAccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -33,23 +35,27 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequest request) {
 
         UserAccount user = userService.getByUsername(request.getUsername());
 
         String status = "FAILED";
+        String token = null;
 
         if (user != null && passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             status = "SUCCESS";
+            token = jwtUtil.generateToken(user.getUsername());
         }
 
         LoginEvent event = new LoginEvent();
-        event.setUserId(user.getId());
+        event.setUserId(user != null ? user.getId() : null);
         event.setLoginStatus(status);
         loginEventService.recordLogin(event);
 
-        String token = jwtUtil.generateToken(user.getUsername());
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", status);
+        response.put("token", token);
 
-        return ResponseEntity.ok(new LoginResponse(token, status));
+        return ResponseEntity.ok(response);
     }
 }
