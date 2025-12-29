@@ -1,32 +1,41 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.Instant;
 
 @Entity
-@Table(name = "login_events")
 public class LoginEvent {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long userId;
-    private String loginStatus; // SUCCESS / FAILED
-    private Instant eventTime;
+    private String loginStatus;
 
     public LoginEvent() {
-        this.eventTime = Instant.now();
     }
 
-    public Long getId(){ return id; }
-    public void setId(Long id){ this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Long getUserId(){ return userId; }
-    public void setUserId(Long userId){ this.userId = userId; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getLoginStatus(){ return loginStatus; }
-    public void setLoginStatus(String loginStatus){ this.loginStatus = loginStatus; }
+    public Long getUserId() {
+        return userId;
+    }
 
-    public Instant getEventTime(){ return eventTime; }
-    public void setEventTime(Instant eventTime){ this.eventTime = eventTime; }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getLoginStatus() {
+        return loginStatus;
+    }
+
+    public void setLoginStatus(String loginStatus) {
+        this.loginStatus = loginStatus;
+    }
 }
