@@ -17,20 +17,23 @@ public class ViolationRecordServiceImpl implements ViolationRecordService {
     }
 
     @Override
-    public ViolationRecord create(ViolationRecord record) {
+    public ViolationRecord createViolation(ViolationRecord record) {
         record.setResolved(false);
         return repo.save(record);
     }
 
     @Override
-    public List<ViolationRecord> getByUser(long userId) {
-        return repo.findByUserId(userId);
+    public List<ViolationRecord> getUnresolvedViolations() {
+        return repo.findByResolvedFalse();
     }
 
     @Override
-    public ViolationRecord resolve(long id) {
-        ViolationRecord record = repo.findById(id).orElseThrow();
-        record.setResolved(true);
-        return repo.save(record);
+    public ViolationRecord resolveViolation(long id) {
+        ViolationRecord record = repo.findById(id).orElse(null);
+        if (record != null) {
+            record.setResolved(true);
+            repo.save(record);
+        }
+        return record;
     }
 }

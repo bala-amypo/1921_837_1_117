@@ -17,22 +17,19 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount create(UserAccount user) {
-        if (user.getUsername() == null) {
-            user.setUsername(user.getEmail());
-        }
+    public UserAccount createUser(UserAccount user) {
         user.setActive(true);
         return repo.save(user);
     }
 
     @Override
     public UserAccount getByUsername(String username) {
-        return repo.findByUsername(username);
+        return repo.findByUsername(username).orElse(null);
     }
 
     @Override
-    public UserAccount getById(long id) {
-        return repo.findById(id).orElseThrow();
+    public UserAccount getByEmployeeId(String employeeId) {
+        return repo.findByEmployeeId(employeeId).orElse(null);
     }
 
     @Override
@@ -41,9 +38,17 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
+    public UserAccount getById(long id) {
+        return repo.findById(id).orElse(null);
+    }
+
+    @Override
     public UserAccount updateUserStatus(long id, String status) {
-        UserAccount user = repo.findById(id).orElseThrow();
-        user.setActive("ACTIVE".equalsIgnoreCase(status));
-        return repo.save(user);
+        UserAccount user = repo.findById(id).orElse(null);
+        if (user != null) {
+            user.setActive("ACTIVE".equalsIgnoreCase(status));
+            repo.save(user);
+        }
+        return user;
     }
 }

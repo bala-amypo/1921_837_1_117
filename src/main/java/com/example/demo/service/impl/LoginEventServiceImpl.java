@@ -22,12 +22,7 @@ public class LoginEventServiceImpl implements LoginEventService {
     }
 
     @Override
-    public List<LoginEvent> getEventsByUser(long userId) {
-        return repo.findByUserId(userId);
-    }
-
-    @Override
-    public List<LoginEvent> getSuspiciousLogins(long userId) {
-        return repo.findByUserIdAndLoginStatus(userId, "SUSPICIOUS");
+    public List<LoginEvent> getAllEvents() {
+        return repo.findAll();
     }
 }
